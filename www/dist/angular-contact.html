@@ -1,0 +1,23 @@
+<div class="list lhz-contact">
+  <ion-scroll class="contact-scroll" on-scroll="onContactScroll()">
+    <div data-ng-repeat="group in contactGroups" id="group-{{group.name}}">
+      <div class="item item-divider" id="letter-{{group.name}}">
+        {{group.name}}
+      </div>
+      <a class="item item-avatar" data-ng-repeat="contact in group.children">
+        <img src="venkman.jpg">
+        <h2>{{contact.name}}</h2>
+        <p>{{contact.description}}</p>
+      </a>
+    </div>
+  </ion-scroll>
+
+  <div class="cur-letter">
+    <div class="item item-divider cur-header-title">
+      {{curGroupName}}
+    </div>
+  </div>
+  <div class="floatLeftLetters">
+    <div class="letter" data-ng-repeat="letter in letters" data-ng-click="scrollToLetter(letter)">{{letter}}</div>
+  </div>
+</div>

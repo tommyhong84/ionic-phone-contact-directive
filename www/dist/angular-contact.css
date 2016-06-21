@@ -1,0 +1,27 @@
+.lhz-contact {
+  position: relative;
+}
+
+.lhz-contact .cur-letter {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.lhz-contact .floatLeftLetters{
+  position: fixed;
+  right:0;
+  width: 30px;
+  height: 98%;
+  background: white;
+  top:0;
+  z-index: 999;
+  opacity: 0.8;
+  margin: 2px 0;
+}
+
+.lhz-contact .floatLeftLetters .letter{
+  width: 30px;
+  text-align: center;
+  color: blue;
+}
