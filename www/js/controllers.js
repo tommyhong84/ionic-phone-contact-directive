@@ -43,6 +43,21 @@ angular.module('starter.controllers', [])
         name: 'Jackey3',
         description: 'hhhhhhhhhhhh'
       },
+       {
+        id: 61,
+        name: '#Tommy',
+        description: 'Tommy1'
+      },
+       {
+        id: 62,
+        name: '@adfd',
+        description: 'Tommy2'
+      },
+       {
+        id: 63,
+        name: '!kdfk',
+        description: 'Tommy3'
+      },
       {
         id: 5,
         name: 'Hihku',
