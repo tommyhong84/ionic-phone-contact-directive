@@ -12,11 +12,11 @@
   position: fixed;
   right:0;
   width: 30px;
-  height: 98%;
+ top:44px;
+ bottom:49px;
   background: white;
-  top:0;
   z-index: 999;
-  opacity: 0.8;
+  opacity: 0.9;
   margin: 2px 0;
 }
 
@@ -24,4 +24,6 @@
   width: 30px;
   text-align: center;
   color: blue;
+  cursor:pointer;
 }
+.scroll{height:100%;}
