@@ -1,7 +1,7 @@
-<div class="list lhz-contact">
-  <ion-scroll class="contact-scroll" on-scroll="onContactScroll()">
-    <div data-ng-repeat="group in contactGroups" id="group-{{group.name}}">
-      <div class="item item-divider" id="letter-{{group.name}}">
+<div class="list lhz-contact" style="height:100%">
+  <ion-scroll class="contact-scroll" on-scroll="onContactScroll()" style="height:100%">
+    <div data-ng-repeat="group in contactGroups" id="group-{{group.cls}}">
+      <div class="item item-divider" id="letter-{{group.cls}}">
         {{group.name}}
       </div>
       <a class="item item-avatar" data-ng-repeat="contact in group.children">
