@@ -30,7 +30,7 @@
           //todo: refactor
           $scope.onContactScroll = function (i) {
             $scope.contactGroups.forEach(function (group) {
-              var dom=$('#letter-' + group.cls);
+              var dom=$('#group-' + group.cls);
               var position = dom.position();
               var h=dom.height();
               if (position && position.top < 0 && position.top >(-h)) {
