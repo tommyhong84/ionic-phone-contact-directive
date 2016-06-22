@@ -16,14 +16,13 @@
         },
         templateUrl: 'dist/angular-contact.html',
         link: function ($scope) {
-
-          var CURGROUPNAMEHEIGHT = 38,
-            FLOATLEFTLETTERSMARGIN = 6;
-
+          function getLetterCls(letter){
+            return letter=='#'?'other':letter;
+          }
           $scope.scrollToLetter = function (letter) {
-            var doc = document.getElementById('group-' + letter);
+            var doc = document.getElementById('group-' + getLetterCls(letter));
             if (doc && doc.offsetTop && $scope.curGroupName !== letter) {
-              $ionicScrollDelegate.scrollTo($ionicScrollDelegate.getScrollPosition().left, doc.offsetTop);
+              $ionicScrollDelegate.scrollTo(0, doc.offsetTop);
               $scope.curGroupName = letter;
             }
           };
@@ -31,17 +30,26 @@
           //todo: refactor
           $scope.onContactScroll = function (i) {
             $scope.contactGroups.forEach(function (group) {
-              var position = $('#letter-' + group.name).position();
-              if (position && position.top >= 0 && position.top <= CURGROUPNAMEHEIGHT) {
-                $scope.curGroupName = group.name;
-                $('.cur-header-title').text(group.name);
+              var dom=$('#letter-' + group.cls);
+              var position = dom.position();
+              var h=dom.height();
+              if (position && position.top < 0 && position.top >(-h)) {
+                //$scope.curGroupName = group.name;
+                //$('.cur-header-title').text(group.name);
+                $scope.$apply(function(){
+                  $scope.curGroupName = group.name;
+                });
               }
             });
           };
 
           //todo: refactor
           function init() {
-            var contactGroups = [];
+            var contactGroups = [{name:'#',cls:'other',children:[]}];
+             $scope.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G',
+              'H', 'I', 'J', 'K', 'L', 'M', 'N',
+              'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+              'V', 'W', 'X', 'Y', 'Z','#'];
             $scope.dataSource.forEach(function (item) {
               var groupName = makePy(item.name)[0].toUpperCase()[0];
               var hasGroup = false;
@@ -51,18 +59,21 @@
                   group.children.push(item);
                 }
               });
+              if($scope.letters.indexOf(groupName)==-1){
+                 hasGroup = true;
+                  contactGroups[0].children.push(item);
+              }
               if (!hasGroup) {
                 contactGroups.push({
                   name: groupName,
+                  cls:groupName,
                   children: [item]
                 });
               }
+              if(contactGroups[0].children.length===0){
+                contactGroups=contactGroups.slice(1,contactGroups.length);
+              }
             });
-
-            $scope.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G',
-              'H', 'I', 'J', 'K', 'L', 'M', 'N',
-              'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-              'V', 'W', 'X', 'Y', 'Z'];
             $scope.contactGroups = sortGroups(contactGroups);
             $scope.curGroupName = $scope.contactGroups[0].name;
           }
@@ -89,20 +100,9 @@
             return result;
           }
 
-          function adjustUILayout() {
-            var bodyHeight = parseInt($('.view-container').height()) - 88;//todo: hard code
-            $('.floatLeftLetters').height(bodyHeight - FLOATLEFTLETTERSMARGIN);
-            $('.contact-scroll').height(bodyHeight);
-            $('.floatLeftLetters .letter').css({
-              height: (bodyHeight - FLOATLEFTLETTERSMARGIN) / $scope.letters.length
-            });
-          }
 
           init();
 
-          $timeout(function () {
-            adjustUILayout();
-          });
         }
       };
     }]);
