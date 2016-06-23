@@ -2,6 +2,8 @@
 simulate phone contact
 
 <img src="https://raw.githubusercontent.com/Jackey-Sparrow/ionic-phone-contact-directive/master/screenshot.png" width="320" height="568"/>
+<img src="http://www.gzbohao.com/www/img/contact.png" width="320" height="568"/>
+
 
 # how to use it
 
