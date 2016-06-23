@@ -16,6 +16,7 @@
         },
         templateUrl: 'dist/angular-contact.html',
         link: function ($scope) {
+        	var LETTERHEIGHT=38;
           function getLetterCls(letter){
             return letter=='#'?'other':letter;
           }
@@ -29,17 +30,36 @@
 
           //todo: refactor
           $scope.onContactScroll = function (i) {
+          	var topLetter=$('.cur-letter');
+          	if($ionicScrollDelegate.getScrollPosition().top<=0){
+          		topLetter.hide();
+          	}
+          	else{
+          		topLetter.show();
+          	}
             $scope.contactGroups.forEach(function (group) {
               var dom=$('#group-' + group.cls);
+              var groupLetter=$('#letter-' + group.cls);
+              var letterPosition=groupLetter.position();
               var position = dom.position();
               var h=dom.height();
-              if (position && position.top < 0 && position.top >(-h)) {
-                //$scope.curGroupName = group.name;
-                //$('.cur-header-title').text(group.name);
-                $scope.$apply(function(){
-                  $scope.curGroupName = group.name;
-                });
+              if(position && position.top){
+ 					if(position.top >= 0 && position.top<LETTERHEIGHT){
+              			if((LETTERHEIGHT-position.top)>=0)
+              				topLetter.css('margin-top','-'+(LETTERHEIGHT-position.top)+'px');
+                  
+		            }
+		            if (position.top < 0 && position.top >(-h)) {
+		                //$scope.curGroupName = group.name;
+		                //$('.cur-header-title').text(group.name);
+		                $scope.$apply(function(){
+		                  $scope.curGroupName = group.name;
+		                });
+		                if(-position.top>=0)
+		                	topLetter.css('margin-top','0px');
+		            }
               }
+             
             });
           };
 
