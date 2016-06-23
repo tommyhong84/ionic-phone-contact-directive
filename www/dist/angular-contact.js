@@ -16,14 +16,20 @@
         },
         templateUrl: 'dist/angular-contact.html',
         link: function ($scope) {
-        	var LETTERHEIGHT=38;
+          var config={
+            letterHeight:38,
+            letters:['A', 'B', 'C', 'D', 'E', 'F', 'G',
+              'H', 'I', 'J', 'K', 'L', 'M', 'N',
+              'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+              'V', 'W', 'X', 'Y', 'Z','#']
+          };
           function getLetterCls(letter){
             return letter=='#'?'other':letter;
           }
           $scope.scrollToLetter = function (letter) {
             var doc = document.getElementById('group-' + getLetterCls(letter));
             if (doc && doc.offsetTop && $scope.curGroupName !== letter) {
-              $ionicScrollDelegate.scrollTo(0, doc.offsetTop);
+              $ionicScrollDelegate.scrollTo(0, doc.offsetTop+2);
               $scope.curGroupName = letter;
             }
           };
@@ -44,9 +50,9 @@
               var position = dom.position();
               var h=dom.height();
               if(position && position.top){
- 					if(position.top >= 0 && position.top<LETTERHEIGHT){
-              			if((LETTERHEIGHT-position.top)>=0)
-              				topLetter.css('margin-top','-'+(LETTERHEIGHT-position.top)+'px');
+ 				       	if(position.top >= 0 && position.top<config.letterHeight){
+              			if((config.letterHeight-position.top)>=0)
+              				topLetter.css('margin-top','-'+(config.letterHeight-position.top)+'px');
                   
 		            }
 		            if (position.top < 0 && position.top >(-h)) {
@@ -62,14 +68,9 @@
              
             });
           };
-
-          //todo: refactor
-          function init() {
+          //buildGroup
+          function buildGroup(){
             var contactGroups = [{name:'#',cls:'other',children:[]}];
-             $scope.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G',
-              'H', 'I', 'J', 'K', 'L', 'M', 'N',
-              'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-              'V', 'W', 'X', 'Y', 'Z','#'];
             $scope.dataSource.forEach(function (item) {
               var groupName = makePy(item.name)[0].toUpperCase()[0];
               var hasGroup = false;
@@ -79,7 +80,7 @@
                   group.children.push(item);
                 }
               });
-              if($scope.letters.indexOf(groupName)==-1){
+              if(config.letters.indexOf(groupName)==-1){
                  hasGroup = true;
                   contactGroups[0].children.push(item);
               }
@@ -90,11 +91,16 @@
                   children: [item]
                 });
               }
-              
             });
             if(contactGroups[0].children.length===0){
                 contactGroups=contactGroups.slice(1,contactGroups.length);
-              }
+            }
+            return contactGroups;
+          }
+          //todo: refactor
+          function init() {
+            var contactGroups=buildGroup();
+            $scope.letters = config.letters;
             $scope.contactGroups = sortGroups(contactGroups);
             $scope.curGroupName = $scope.contactGroups[0].name;
           }
