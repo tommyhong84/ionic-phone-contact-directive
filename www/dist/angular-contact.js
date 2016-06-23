@@ -70,10 +70,11 @@
                   children: [item]
                 });
               }
-              if(contactGroups[0].children.length===0){
+              
+            });
+            if(contactGroups[0].children.length===0){
                 contactGroups=contactGroups.slice(1,contactGroups.length);
               }
-            });
             $scope.contactGroups = sortGroups(contactGroups);
             $scope.curGroupName = $scope.contactGroups[0].name;
           }
